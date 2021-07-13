@@ -7,9 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +19,7 @@ public class FileRestControllerV1 {
     private FileService fileService;
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<File> saveFile(@RequestBody @Validated File file) {
+    public ResponseEntity<File> saveFile(@RequestBody @Valid File file) {
         HttpHeaders headers = new HttpHeaders();
 
         if (file == null) {
@@ -32,7 +32,7 @@ public class FileRestControllerV1 {
 
 
     @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<File> updateFile(@RequestBody @Validated File file) {
+    public ResponseEntity<File> updateFile(@RequestBody @Valid File file) {
         HttpHeaders headers = new HttpHeaders();
 
         if (fileService.getById(file.getId()) != null)

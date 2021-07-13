@@ -21,11 +21,14 @@ repositories {
 }
 
 dependencies {
+    implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.1'
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation 'mysql:mysql-connector-java:8.0.11'
@@ -44,4 +47,6 @@ flyway {
     password = 'q1w2e3r4'
     locations = ['classpath:db/migration']
 }
+
+flywayMigrate.dependsOn classes
 

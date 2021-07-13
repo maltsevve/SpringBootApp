@@ -7,9 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +19,7 @@ public class UserRestControllerV1 {
     private UserService userService;
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> saveUser(@RequestBody @Validated User user) {
+    public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
         if (user == null) {
@@ -32,7 +32,7 @@ public class UserRestControllerV1 {
 
 
     @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateUser(@RequestBody @Validated User user) {
+    public ResponseEntity<User> updateUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
         if (userService.getById(user.getId()) != null)
@@ -48,7 +48,7 @@ public class UserRestControllerV1 {
 
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUsers(@PathVariable("id") Long userId) {
+    public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {
         if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

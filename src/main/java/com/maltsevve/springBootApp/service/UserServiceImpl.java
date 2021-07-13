@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         log.info("IN EventServiceImpl save {}", user);
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         log.info("IN EventServiceImpl getById {}", id);
 //        return userRepository.findOne(id);
-//        return userRepository.getById(id);
-        return userRepository.findById(id).get();
+        return userRepository.getById(id);
+//        return userRepository.findById(id).get();
     }
 
     @Override
