@@ -16,4 +16,6 @@ public interface FileService extends GenericService<File, Long> {
 
     @Override
     void deleteById(Long id);
+
+    File findByFileName(String fileName);
 }

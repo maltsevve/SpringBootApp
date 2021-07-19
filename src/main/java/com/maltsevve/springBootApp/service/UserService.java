@@ -16,4 +16,8 @@ public interface UserService extends GenericService<User, Long>{
 
     @Override
     void deleteById(Long id);
+
+    User register(User user);
+
+    User findByUsername(String username);
 }

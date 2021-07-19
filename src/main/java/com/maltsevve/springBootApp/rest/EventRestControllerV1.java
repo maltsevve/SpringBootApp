@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/events/")
+@RequestMapping("/api/v1/events")
 public class EventRestControllerV1 {
     @Autowired
     private EventService eventService;
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Event> getEvent(@PathVariable("id") Long eventId) {
         if (eventId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

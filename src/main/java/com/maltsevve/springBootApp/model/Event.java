@@ -1,10 +1,11 @@
 package com.maltsevve.springBootApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "events")
@@ -13,14 +14,11 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Event extends BaseEntity{
-    @Column(name = "time")
-    private Date eventTime;
-    @Column(name = "status")
-    Status status;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userid")
+    @JoinColumn(name = "user_id")
     private User user;
+
     @OneToOne
-    @JoinColumn(name = "fileid")
+    @JoinColumn(name = "file_id")
     private File file;
 }

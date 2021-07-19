@@ -12,13 +12,23 @@ import java.util.List;
 @Slf4j
 @Service
 public class EventServiceImpl implements EventService {
+    private final EventRepository eventRepository;
+
     @Autowired
-    private EventRepository eventRepository;
+    public EventServiceImpl(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @Override
     public void save(Event event) {
         log.info("IN EventServiceImpl save {}", event);
-        event.setEventTime(new Date());
+
+        if (event.getId() == null) {             /// Проверить работоспособность
+            event.setCreated(new Date());
+        } else {
+            event.setUpdated(new Date());
+        }
+
         eventRepository.save(event);
     }
 

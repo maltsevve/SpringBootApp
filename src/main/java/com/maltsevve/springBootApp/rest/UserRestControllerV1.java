@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users/")
+@RequestMapping("/api/v1/users")
 public class UserRestControllerV1 {
     @Autowired
     private UserService userService;
@@ -35,11 +35,9 @@ public class UserRestControllerV1 {
     public ResponseEntity<User> updateUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (userService.getById(user.getId()) != null)
-
-            if (user.getId() == null) {                        /** Нужно ли проверять наличие id или только user'а?*/
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+        if (user.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         this.userService.save(user);
 
@@ -47,7 +45,7 @@ public class UserRestControllerV1 {
     }
 
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {
         if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -73,7 +71,7 @@ public class UserRestControllerV1 {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> deleteUser(@PathVariable("id") Long userId) {
         User user = userService.getById(userId);
 

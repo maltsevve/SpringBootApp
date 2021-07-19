@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/files/")
+@RequestMapping("/api/v1/files")
 public class FileRestControllerV1 {
     @Autowired
     private FileService fileService;
@@ -35,11 +35,9 @@ public class FileRestControllerV1 {
     public ResponseEntity<File> updateFile(@RequestBody @Valid File file) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (fileService.getById(file.getId()) != null)
-
-            if (file.getId() == null) {                        /** Нужно ли проверять наличие id или только file'а?*/
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+        if (file.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         this.fileService.save(file);
 
@@ -47,7 +45,7 @@ public class FileRestControllerV1 {
     }
 
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<File> getFiles(@PathVariable("id") Long fileId) {
         if (fileId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -73,7 +71,7 @@ public class FileRestControllerV1 {
         return new ResponseEntity<>(files, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<File> deleteFile(@PathVariable("id") Long fileId) {
         File file = fileService.getById(fileId);
 

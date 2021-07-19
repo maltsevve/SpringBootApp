@@ -11,8 +11,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class FileServiceImpl implements FileService{
+    private final FileRepository fileRepository;
+
     @Autowired
-    private FileRepository fileRepository;
+    public FileServiceImpl(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+    }
 
     @Override
     public void save(File file) {
@@ -36,5 +40,10 @@ public class FileServiceImpl implements FileService{
     public void deleteById(Long id) {
         log.info("IN FileServiceImpl delete {}", id);
         fileRepository.deleteById(id);
+    }
+
+    @Override
+    public File findByFileName(String fileName) {
+        return null;
     }
 }
