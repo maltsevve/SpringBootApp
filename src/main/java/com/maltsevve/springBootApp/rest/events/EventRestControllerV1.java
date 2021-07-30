@@ -1,5 +1,6 @@
-package com.maltsevve.springBootApp.rest;
+package com.maltsevve.springBootApp.rest.events;
 
+import com.maltsevve.springBootApp.dto.EventDto;
 import com.maltsevve.springBootApp.model.Event;
 import com.maltsevve.springBootApp.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/events")
+@RequestMapping("/api/v1/users/events")
 public class EventRestControllerV1 {
+    private final EventService eventService;
+
     @Autowired
-    private EventService eventService;
+    public EventRestControllerV1(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Event> getEvent(@PathVariable("id") Long eventId) {
+    public ResponseEntity<EventDto> getEvent(@PathVariable("id") Long eventId) {
         if (eventId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -31,17 +36,17 @@ public class EventRestControllerV1 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(EventDto.fromEvent(event), HttpStatus.OK);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Event>> getAllEvents() {
+    public ResponseEntity<List<EventDto>> getAllEvents() {
         List<Event> events = this.eventService.getAll();
 
         if (events.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(events, HttpStatus.OK);
+        return new ResponseEntity<>(EventDto.fromEvents(events), HttpStatus.OK);
     }
 }

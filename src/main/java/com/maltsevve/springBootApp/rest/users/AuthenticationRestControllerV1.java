@@ -1,4 +1,4 @@
-package com.maltsevve.springBootApp.rest;
+package com.maltsevve.springBootApp.rest.users;
 
 import com.maltsevve.springBootApp.dto.AuthenticationRequestDto;
 import com.maltsevve.springBootApp.model.User;
@@ -36,7 +36,7 @@ public class AuthenticationRestControllerV1 {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
+    public ResponseEntity<Object> login(@RequestBody AuthenticationRequestDto requestDto) {
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));

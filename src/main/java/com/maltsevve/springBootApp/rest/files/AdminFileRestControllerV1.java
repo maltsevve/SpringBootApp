@@ -1,5 +1,6 @@
-package com.maltsevve.springBootApp.rest;
+package com.maltsevve.springBootApp.rest.files;
 
+import com.maltsevve.springBootApp.dto.AdminFileDto;
 import com.maltsevve.springBootApp.model.File;
 import com.maltsevve.springBootApp.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/files")
-public class FileRestControllerV1 {
+@RequestMapping("/api/v1/admins/files")
+public class AdminFileRestControllerV1 {
+    private final FileService fileService;
+
     @Autowired
-    private FileService fileService;
+    public AdminFileRestControllerV1(FileService fileService) {
+        this.fileService = fileService;
+    }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<File> saveFile(@RequestBody @Valid File file) {
@@ -46,7 +51,7 @@ public class FileRestControllerV1 {
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<File> getFiles(@PathVariable("id") Long fileId) {
+    public ResponseEntity<AdminFileDto> getFiles(@PathVariable("id") Long fileId) {
         if (fileId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -57,18 +62,18 @@ public class FileRestControllerV1 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(file, HttpStatus.OK);
+        return new ResponseEntity<>(AdminFileDto.fromFile(file), HttpStatus.OK);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<File>> getAllFiles() {
+    public ResponseEntity<List<AdminFileDto>> getAllFiles() {
         List<File> files = this.fileService.getAll();
 
         if (files.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(files, HttpStatus.OK);
+        return new ResponseEntity<>(AdminFileDto.fromFiles(files), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

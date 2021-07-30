@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -36,7 +37,9 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(userRoles);
-        user.setStatus(Status.ACTIVE);
+        user.setStatus(Status.NOT_ACTIVE); // Use save() to activate new user
+        user.setCreated(new Date());
+        user.setUpdated(new Date());
 
         User registeredUser = userRepository.save(user);
 
@@ -54,8 +57,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        log.info("IN EventServiceImpl save {}", user);
+        if (user.getStatus() == Status.NOT_ACTIVE) {
+            user.setStatus(Status.ACTIVE);
+        }
+
+        if (user.getCreated() == null) {
+            user.setCreated(new Date());
+        }
+
+        user.setUpdated(new Date());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
+        log.info("IN EventServiceImpl save {}", user);
     }
 
     @Override
@@ -73,7 +87,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Long id) {
+        User user = getById(id);
+        user.setStatus(Status.DELETED);
+        user.setUpdated(new Date());
+        userRepository.save(user);
+
         log.info("IN EventServiceImpl delete {}", id);
-        userRepository.deleteById(id);
+//        userRepository.deleteById(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.maltsevve.springBootApp.service;
 
 import com.maltsevve.springBootApp.model.Event;
+import com.maltsevve.springBootApp.model.Status;
 import com.maltsevve.springBootApp.repository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,15 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void save(Event event) {
-        log.info("IN EventServiceImpl save {}", event);
-
-        if (event.getId() == null) {             /// Проверить работоспособность
+        if (event.getCreated() == null) {
             event.setCreated(new Date());
-        } else {
-            event.setUpdated(new Date());
         }
 
+        event.setUpdated(new Date());
+        event.setStatus(Status.ACTIVE);
         eventRepository.save(event);
+
+        log.info("IN EventServiceImpl save {}", event);
     }
 
     @Override
@@ -46,7 +47,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void deleteById(Long id) {
+        Event event = getById(id);
+        event.setStatus(Status.DELETED);
+        event.setUpdated(new Date());
+        eventRepository.save(event);
+
         log.info("IN EventServiceImpl delete {}", id);
-        eventRepository.deleteById(id);
+//        eventRepository.deleteById(id);
     }
 }

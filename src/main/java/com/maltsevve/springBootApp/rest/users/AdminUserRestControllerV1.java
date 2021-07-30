@@ -1,5 +1,6 @@
-package com.maltsevve.springBootApp.rest;
+package com.maltsevve.springBootApp.rest.users;
 
+import com.maltsevve.springBootApp.dto.AdminUserDto;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
-public class UserRestControllerV1 {
+@RequestMapping("/api/v1/admins")
+public class AdminUserRestControllerV1 {
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public AdminUserRestControllerV1(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
@@ -46,7 +51,7 @@ public class UserRestControllerV1 {
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {
+    public ResponseEntity<AdminUserDto> getUser(@PathVariable("id") Long userId) {
         if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -57,18 +62,18 @@ public class UserRestControllerV1 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(AdminUserDto.fromUser(user), HttpStatus.OK);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<AdminUserDto>> getAllUsers() {
         List<User> users = this.userService.getAll();
 
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(AdminUserDto.fromUsers(users), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -3,6 +3,7 @@ package com.maltsevve.springBootApp.security.jwt;
 import com.maltsevve.springBootApp.model.Role;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,10 +30,10 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
 
-    private final UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
+    public void setUserDetailsService(@Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
