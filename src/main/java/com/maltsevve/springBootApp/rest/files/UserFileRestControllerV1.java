@@ -3,6 +3,7 @@ package com.maltsevve.springBootApp.rest.files;
 import com.maltsevve.springBootApp.dto.UserFileDto;
 import com.maltsevve.springBootApp.model.File;
 import com.maltsevve.springBootApp.service.FileService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URL;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,9 @@ public class UserFileRestControllerV1 {
         this.fileService = fileService;
     }
 
-
+    @SneakyThrows
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserFileDto> getFiles(@PathVariable("id") Long fileId) {
+    public ResponseEntity<URL> getFiles(@PathVariable("id") Long fileId) {
         if (fileId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -37,7 +39,7 @@ public class UserFileRestControllerV1 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(UserFileDto.fromFile(file), HttpStatus.OK);
+        return new ResponseEntity<>(new URL(file.getFileUrl()), HttpStatus.OK);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

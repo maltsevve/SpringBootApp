@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class File extends BaseEntity {
-    @Column(name = "filename")
+    @Column(name = "file_name")
     private String fileName;
+    @Column(name = "file_url")
+    private String fileUrl;
 }

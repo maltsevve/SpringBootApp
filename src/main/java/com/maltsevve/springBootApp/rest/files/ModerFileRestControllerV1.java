@@ -3,40 +3,52 @@ package com.maltsevve.springBootApp.rest.files;
 import com.maltsevve.springBootApp.dto.AdminFileDto;
 import com.maltsevve.springBootApp.model.File;
 import com.maltsevve.springBootApp.service.FileService;
+import com.maltsevve.springBootApp.service.amazon.AmazonClient;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import java.net.URL;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/moderators/files")
 public class ModerFileRestControllerV1 {
     private final FileService fileService;
+    private final AmazonClient amazonClient;
 
     @Autowired
-    public ModerFileRestControllerV1(FileService fileService) {
+    public ModerFileRestControllerV1(FileService fileService, AmazonClient amazonClient) {
         this.fileService = fileService;
+        this.amazonClient = amazonClient;
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<File> saveFile(@RequestBody @Valid File file) {
+    public ResponseEntity<File> saveFile(@RequestPart(value = "file") MultipartFile file) {
         HttpHeaders headers = new HttpHeaders();
 
         if (file == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        this.fileService.save(file);
-        return new ResponseEntity<>(file, headers, HttpStatus.CREATED);
+        String fileUrl = this.amazonClient.uploadFile(file);
+
+        File savedFile = new File();
+        savedFile.setFileName(file.getOriginalFilename());
+        savedFile.setFileUrl(fileUrl);
+        this.fileService.save(savedFile);
+
+        return new ResponseEntity<>(savedFile, headers, HttpStatus.CREATED);
     }
 
+    @SneakyThrows
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AdminFileDto> getFiles(@PathVariable("id") Long fileId) {
+    public ResponseEntity<URL> getFiles(@PathVariable("id") Long fileId) {
         if (fileId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -47,7 +59,7 @@ public class ModerFileRestControllerV1 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(AdminFileDto.fromFile(file), HttpStatus.OK);
+        return new ResponseEntity<>(new URL(file.getFileUrl()), HttpStatus.OK);
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,6 +81,7 @@ public class ModerFileRestControllerV1 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        this.amazonClient.deleteFileFromS3Bucket(file.getFileName());
         this.fileService.deleteById(fileId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

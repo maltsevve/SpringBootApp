@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 public class UserFileDto {
     private Long id;
     private String fileName;
+    private String fileUrl;
 
     public File toFile() {
         File file = new File();
         file.setId(id);
         file.setFileName(fileName);
+        file.setFileUrl(fileUrl);
 
         return file;
     }
@@ -25,6 +27,7 @@ public class UserFileDto {
         UserFileDto userFileDto = new UserFileDto();
         userFileDto.setId(file.getId());
         userFileDto.setFileName(file.getFileName());
+        userFileDto.setFileUrl(file.getFileUrl());
 
         return userFileDto;
     }

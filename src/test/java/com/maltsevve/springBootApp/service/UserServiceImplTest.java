@@ -4,7 +4,9 @@
 //import com.maltsevve.springBootApp.model.User;
 //import com.maltsevve.springBootApp.repository.RoleRepository;
 //import com.maltsevve.springBootApp.repository.UserRepository;
+//import org.junit.jupiter.api.BeforeAll;
 //import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
 //import org.junit.runner.RunWith;
 //import org.mockito.InjectMocks;
 //import org.mockito.Mock;
@@ -14,6 +16,7 @@
 //import static org.mockito.Mockito.*;
 //
 //@RunWith(MockitoJUnitRunner.class)
+//@ExtendWith(MockitoExtension.class)
 //class UserServiceImplTest {
 //    @Mock
 //    private UserRepository userRepository;
@@ -27,7 +30,7 @@
 //    @InjectMocks
 //    private UserServiceImpl serviceUnderTest;
 //
-////    @Test
+//    //    @Test
 ////    void register() throws ParseException {
 ////        userService = new UserServiceImpl(userRepository, roleRepository, passwordEncoder);
 ////
@@ -69,15 +72,10 @@
 //
 //    @Test
 //    void deleteById() {
-//        User user = new User();
-//        user.setId(1L);
-//        user.setUsername("TestUser");
-//        user.setPassword("Test");
-//        user.setEmail("test@test.com");
-//        user.setStatus(Status.DELETED);
-//        when(userRepository.save(any())).thenReturn(user);
-//        serviceUnderTest.deleteById(1L);
+//        when(userRepository.existsById(1L)).thenReturn(true);
+//        doNothing().when(userRepository).deleteById(1L);
+//        userRepository.deleteById(1L);
 //
-//        verify(userRepository, times(1)).save(user);
+//        verify(userRepository, times(1)).deleteById(1L);
 //    }
 //}

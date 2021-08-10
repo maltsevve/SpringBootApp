@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class AdminFileDto {
     private Long id;
     private String fileName;
+    private String fileUrl;
     private Date created;
     private Date updated;
     private Status status;
@@ -22,6 +23,7 @@ public class AdminFileDto {
         File file = new File();
         file.setId(id);
         file.setFileName(fileName);
+        file.setFileUrl(fileUrl);
         file.setCreated(created);
         file.setUpdated(updated);
         file.setStatus(status);
@@ -33,6 +35,7 @@ public class AdminFileDto {
         AdminFileDto adminFileDto = new AdminFileDto();
         adminFileDto.setId(file.getId());
         adminFileDto.setFileName(file.getFileName());
+        adminFileDto.setFileUrl(file.getFileUrl());
         adminFileDto.setCreated(file.getCreated());
         adminFileDto.setUpdated(file.getUpdated());
         adminFileDto.setStatus(file.getStatus());
