@@ -3,7 +3,7 @@ package com.maltsevve.springBootApp.rest.users;
 import com.maltsevve.springBootApp.dto.AdminUserDto;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,47 +12,44 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/admins")
+@RequiredArgsConstructor
 public class AdminUserRestControllerV1 {
     private final UserService userService;
 
-    @Autowired
-    public AdminUserRestControllerV1(UserService userService) {
-        this.userService = userService;
-    }
-
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
+    public ResponseEntity<AdminUserDto> saveUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (user == null) {
+        if (Objects.isNull(user)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         this.userService.save(user);
-        return new ResponseEntity<>(user, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(AdminUserDto.fromUser(user), headers, HttpStatus.CREATED);
     }
 
 
     @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateUser(@RequestBody @Valid User user) {
+    public ResponseEntity<AdminUserDto> updateUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (user.getId() == null) {
+        if (Objects.isNull(user.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         this.userService.save(user);
 
-        return new ResponseEntity<>(user, headers, HttpStatus.OK);
+        return new ResponseEntity<>(AdminUserDto.fromUser(user), headers, HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AdminUserDto> getUser(@PathVariable("id") Long userId) {
-        if (userId == null) {
+        if (Objects.isNull(userId)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -80,7 +77,7 @@ public class AdminUserRestControllerV1 {
     public ResponseEntity<User> deleteUser(@PathVariable("id") Long userId) {
         User user = userService.getById(userId);
 
-        if (user == null) {
+        if (Objects.isNull(user)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

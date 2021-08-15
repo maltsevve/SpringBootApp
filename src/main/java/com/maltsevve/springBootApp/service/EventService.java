@@ -4,9 +4,9 @@ import com.maltsevve.springBootApp.model.Event;
 
 import java.util.List;
 
-public interface EventService extends GenericService<Event, Long>{
+public interface EventService extends GenericService<Event, Long> {
     @Override
-    void save(Event event);
+    Event save(Event event);
 
     @Override
     Event getById(Long id);
@@ -15,5 +15,5 @@ public interface EventService extends GenericService<Event, Long>{
     List<Event> getAll();
 
     @Override
-    void deleteById(Long id);
+    Event deleteById(Long id);
 }

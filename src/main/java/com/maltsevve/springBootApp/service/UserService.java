@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService extends GenericService<User, Long>{
     @Override
-    void save(User user);
+    User save(User user);
 
     @Override
     User getById(Long id);
@@ -15,7 +15,7 @@ public interface UserService extends GenericService<User, Long>{
     List<User> getAll();
 
     @Override
-    void deleteById(Long id);
+    User deleteById(Long id);
 
     User register(User user);
 

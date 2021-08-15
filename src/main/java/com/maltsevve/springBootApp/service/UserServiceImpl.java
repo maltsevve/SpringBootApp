@@ -5,8 +5,8 @@ import com.maltsevve.springBootApp.model.Status;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.repository.RoleRepository;
 import com.maltsevve.springBootApp.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +14,15 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public User register(User user) {
@@ -56,20 +51,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
-        if (user.getStatus() == Status.NOT_ACTIVE) {
-            user.setStatus(Status.ACTIVE);
-        }
-
-        if (user.getCreated() == null) {
+    public User save(User user) {
+        if (Objects.isNull(user.getCreated())) {
             user.setCreated(new Date());
         }
 
         user.setUpdated(new Date());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        user.setStatus(Status.ACTIVE);
 
         log.info("IN EventServiceImpl save {}", user);
+
+        return userRepository.save(user);
     }
 
     @Override
@@ -86,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public User deleteById(Long id) {
         User user = getById(id);
         user.setStatus(Status.DELETED);
         user.setUpdated(new Date());
@@ -94,5 +87,6 @@ public class UserServiceImpl implements UserService {
 
         log.info("IN EventServiceImpl delete {}", id);
 //        userRepository.deleteById(id);
+        return user;
     }
 }

@@ -4,7 +4,7 @@ import com.maltsevve.springBootApp.dto.AuthenticationRequestDto;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.security.jwt.JwtTokenProvider;
 import com.maltsevve.springBootApp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,22 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
+@RequiredArgsConstructor
 public class AuthenticationRestControllerV1 {
     private final AuthenticationManager authenticationManager;
-
     private final JwtTokenProvider jwtTokenProvider;
-
     private final UserService userService;
-
-    @Autowired
-    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userService = userService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody AuthenticationRequestDto requestDto) {
@@ -42,7 +35,7 @@ public class AuthenticationRestControllerV1 {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
             User user = userService.findByUsername(username);
 
-            if (user == null) {
+            if (Objects.isNull(user)) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found.");
             }
 

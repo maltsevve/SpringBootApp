@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FileService extends GenericService<File, Long> {
     @Override
-    void save(File file);
+    File save(File file);
 
     @Override
     File getById(Long id);
@@ -15,7 +15,7 @@ public interface FileService extends GenericService<File, Long> {
     List<File> getAll();
 
     @Override
-    void deleteById(Long id);
+    File deleteById(Long id);
 
     File findByFileName(String fileName);
 }
