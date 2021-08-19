@@ -4,17 +4,13 @@ import com.maltsevve.springBootApp.model.User;
 
 import java.util.List;
 
-public interface UserService extends GenericService<User, Long>{
-    @Override
+public interface UserService {
     User save(User user);
 
-    @Override
     User getById(Long id);
 
-    @Override
     List<User> getAll();
 
-    @Override
     User deleteById(Long id);
 
     User register(User user);

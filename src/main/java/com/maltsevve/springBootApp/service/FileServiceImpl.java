@@ -6,11 +6,9 @@ import com.maltsevve.springBootApp.model.Status;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.repository.FileRepository;
 import com.maltsevve.springBootApp.repository.UserRepository;
+import com.maltsevve.springBootApp.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,6 +22,7 @@ public class FileServiceImpl implements FileService {
     private final FileRepository fileRepository;
     private final EventService eventService;
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public File findByFileName(String fileName) {
@@ -33,32 +32,26 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File save(File file) {
+    public File save(File file, String token) {
         if (Objects.isNull(file.getCreated())) {
             file.setCreated(new Date());
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        file.setUpdated(new Date());
+        file.setStatus(Status.ACTIVE);
+        File savedFile = fileRepository.save(file);
 
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            file.setUpdated(new Date());
-            file.setStatus(Status.ACTIVE);
-            File savedFile = fileRepository.save(file);
+        String username = jwtTokenProvider.getUsername(token);
+        User user = userRepository.findByUsername(username);
 
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username);
+        Event event = new Event();
+        event.setFile(file);
+        event.setUser(user);
+        eventService.save(event);
 
-            Event event = new Event();
-            event.setFile(file);
-            event.setUser(user);
-            eventService.save(event);
+        log.info("IN FileServiceImpl save {}", file);
 
-            log.info("IN FileServiceImpl save {}", file);
-
-            return savedFile;
-        }
-
-        return null;
+        return savedFile;
     }
 
     @Override
@@ -74,25 +67,23 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File deleteById(Long id) {
+    public File deleteById(Long id, String token) {
         File file = getById(id);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            file.setStatus(Status.DELETED);
-            file.setUpdated(new Date());
-            fileRepository.save(file);
+        file.setStatus(Status.DELETED);
+        file.setUpdated(new Date());
+        fileRepository.save(file);
 
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username);
+        String username = jwtTokenProvider.getUsername(token);
+        User user = userRepository.findByUsername(username);
 
-            Event event = new Event();
-            event.setFile(file);
-            event.setUser(user);
-            eventService.save(event);
+        Event event = new Event();
+        event.setFile(file);
+        event.setUser(user);
+        eventService.save(event);
 
-            log.info("IN FileServiceImpl delete {}", id);
-        }
+        log.info("IN FileServiceImpl delete {}", id);
+
 //        fileRepository.deleteById(id);
         return file;
     }

@@ -5,6 +5,7 @@ import com.maltsevve.springBootApp.model.Status;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.repository.FileRepository;
 import com.maltsevve.springBootApp.repository.UserRepository;
+import com.maltsevve.springBootApp.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class FileServiceImplTest {
@@ -28,8 +28,12 @@ class FileServiceImplTest {
     @Mock
     private EventService eventService = Mockito.mock(EventService.class);
 
+    @Mock
+    private JwtTokenProvider jwtTokenProvider = Mockito.mock(JwtTokenProvider.class);
+
     @InjectMocks
-    private final FileServiceImpl fileService = new FileServiceImpl(fileRepository, eventService, userRepository);
+    private final FileServiceImpl fileService =
+            new FileServiceImpl(fileRepository, eventService, userRepository, jwtTokenProvider);
 
     @Test
     void findByFileName() {
@@ -45,7 +49,21 @@ class FileServiceImplTest {
     }
 
     @Test
-    void save() { //TODO
+    void save() {
+        File file = getFile();
+
+        when(fileRepository.getById(1L)).thenReturn(file);
+        when(userRepository.findByUsername("User")).thenReturn(getUser());
+        when(jwtTokenProvider.getUsername(anyString())).thenReturn(getUser().getUsername());
+
+        fileService.save(file, anyString());
+
+        Assertions.assertEquals(Status.ACTIVE, file.getStatus());
+        Assertions.assertNotNull(file.getId());
+        Assertions.assertNotNull(file.getCreated());
+        Assertions.assertNotNull(file.getUpdated());
+
+        verify(fileRepository, times(1)).save(file);
     }
 
     @Test
@@ -80,19 +98,20 @@ class FileServiceImplTest {
         verify(fileRepository, times(1)).findAll();
     }
 
-//    @Test
-//    void deleteById() { TODO
-//        File file = getFile();
-//
-//        when(fileRepository.getById(1L)).thenReturn(file);
-//        when(userRepository.findByUsername("User")).thenReturn(getUser());
-//
-//        file = fileService.deleteById(file.getId());
-//
-//        Assertions.assertEquals(Status.DELETED, file.getStatus());
-//
-//        verify(fileRepository, times(1)).save(file);
-//    }
+    @Test
+    void deleteById() {
+        File file = getFile();
+
+        when(fileRepository.getById(1L)).thenReturn(file);
+        when(userRepository.findByUsername("User")).thenReturn(getUser());
+        when(jwtTokenProvider.getUsername(anyString())).thenReturn(getUser().getUsername());
+
+        file = fileService.deleteById(file.getId(), anyString());
+
+        Assertions.assertEquals(Status.DELETED, file.getStatus());
+
+        verify(fileRepository, times(1)).save(file);
+    }
 
     private File getFile() {
         File file = new File();

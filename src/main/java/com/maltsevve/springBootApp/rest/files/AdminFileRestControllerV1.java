@@ -25,10 +25,11 @@ public class AdminFileRestControllerV1 {
     private final AmazonClient amazonClient;
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AdminFileDto> saveFile(@RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<AdminFileDto> saveFile(@RequestHeader(value = "Authorization") String token,
+                                                 @RequestPart(value = "file") MultipartFile file) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (Objects.isNull(file)) {
+        if (Objects.isNull(file) | Objects.isNull(token)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -37,7 +38,7 @@ public class AdminFileRestControllerV1 {
         File savedFile = new File();
         savedFile.setFileName(file.getOriginalFilename());
         savedFile.setFileUrl(fileUrl);
-        this.fileService.save(savedFile);
+        this.fileService.save(savedFile, token.substring(7));
 
         return new ResponseEntity<>(AdminFileDto.fromFile(savedFile), headers, HttpStatus.CREATED);
     }
@@ -72,7 +73,8 @@ public class AdminFileRestControllerV1 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<File> deleteFile(@PathVariable("id") Long fileId) {
+    public ResponseEntity<File> deleteFile(@RequestHeader(value = "Authorization") String token,
+                                           @PathVariable("id") Long fileId) {
         File file = fileService.getById(fileId);
 
         if (Objects.isNull(fileId)) {
@@ -80,7 +82,7 @@ public class AdminFileRestControllerV1 {
         }
 
         this.amazonClient.deleteFileFromS3Bucket(file.getFileName());
-        this.fileService.deleteById(fileId);
+        this.fileService.deleteById(fileId, token.substring(7));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
