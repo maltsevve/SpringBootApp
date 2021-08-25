@@ -46,8 +46,8 @@ test {
 
 flyway {
     url = 'jdbc:mysql://localhost:3306/mysqldemo?useSSL=false'
-    user = 'mysql'
-    password = 'q1w2e3r4'
+    user = 'root'
+    password = 'mysql'
     locations = ['classpath:db/migration']
 }
 
