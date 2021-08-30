@@ -4,6 +4,8 @@ import com.maltsevve.springBootApp.dto.EventDto;
 import com.maltsevve.springBootApp.model.Event;
 import com.maltsevve.springBootApp.service.EventService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ import java.util.Objects;
 @RequestMapping("/api/v1/users/events")
 @RequiredArgsConstructor
 public class EventRestControllerV1 {
+
+    //bhawna
+    @Autowired
     private final EventService eventService;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
