@@ -19,6 +19,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
     private static final String REGISTRATION_ENDPOINT = "/api/v1/register";
 
+    private static final String[] AUTH_WHITELIST = {
+        // -- Swagger UI v2
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**"};
+
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
@@ -44,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .antMatchers(MODERATOR_ENDPOINT).hasRole("MODERATOR")
                 .antMatchers(USER_ENDPOINT).hasRole("USER")
