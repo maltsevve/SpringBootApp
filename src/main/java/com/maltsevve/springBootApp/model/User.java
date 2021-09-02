@@ -25,6 +25,12 @@ public class User extends BaseEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Event> events;

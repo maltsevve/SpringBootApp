@@ -1,3 +1,3 @@
-ALTER TABLE users 
-    ADD firstName VARCHAR,
-    ADD lastName VARCHAR;
+ALTER TABLE users   
+ADD COLUMN firstName VARCHAR(255) NULL,  
+ADD COLUMN lastName VARCHAR(255) NULL;
