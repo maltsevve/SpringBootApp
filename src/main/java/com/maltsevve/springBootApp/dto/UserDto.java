@@ -14,16 +14,16 @@ public class UserDto {
     private Long id;
     private String username;
     private Status status;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
 
 
     public User toUser(){
         User user = new User();
         user.setId(id);
         user.setUsername(username);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
         user.setStatus(status);
 
         return user;
@@ -34,8 +34,8 @@ public class UserDto {
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
         userDto.setStatus(user.getStatus());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
+        userDto.setFirstname(user.getFirstname());
+        userDto.setLastname(user.getLastname());
         return userDto;
     }
 

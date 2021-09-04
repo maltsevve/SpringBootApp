@@ -25,11 +25,11 @@ public class User extends BaseEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "firstName")
-    private String firstName;
+    @Column(name = "firstname")
+    private String firstname;
 
-    @Column(name = "lastName")
-    private String lastName;
+    @Column(name = "lastname")
+    private String lastname;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
