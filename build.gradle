@@ -58,3 +58,7 @@ flyway {
 
 flywayMigrate.dependsOn classes
 
+bootRun {
+   jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8081"]
+}
+
