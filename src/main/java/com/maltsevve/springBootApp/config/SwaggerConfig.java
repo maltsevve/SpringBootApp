@@ -41,7 +41,7 @@ public class SwaggerConfig {
 	}
 	
 	@Bean
-	public Docket api() {
+	public Docket bhawnaSehgal() {
 		return new Docket(DocumentationType.SWAGGER_2)
 			.select()
 			.apis(RequestHandlerSelectors.basePackage(basePackage))
