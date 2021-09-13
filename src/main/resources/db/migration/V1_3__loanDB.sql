@@ -1,0 +1,13 @@
+
+CREATE TABLE IF NOT EXISTS loan
+(
+    id       BIGINT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    branch_name VARCHAR(255) NOT NULL UNIQUE,  
+    loan_number BINARY(16) NOT NULL UNIQUE,
+    balance	INTEGER,
+    created  TIMESTAMP    NOT NULL DEFAULT NOW(),
+    updated  TIMESTAMP    NOT NULL DEFAULT NOW(),
+    status   VARCHAR(25)  NOT NULL DEFAULT 'ACTIVE'
+    
+
+);

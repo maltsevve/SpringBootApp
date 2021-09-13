@@ -30,7 +30,10 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:2.7.0'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
-    //implementation 'org.springframework.boot:spring-boot-starter-data-rest:2.5.3'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
+    implementation 'org.springframework.security:spring-security-web:5.5.0'
+
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-security:2.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat:2.5.3'
@@ -59,6 +62,6 @@ flyway {
 flywayMigrate.dependsOn classes
 
 bootRun {
-   jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8081"]
+   jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8081"]
 }
 
