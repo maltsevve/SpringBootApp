@@ -44,4 +44,6 @@ public class UserEventDto {
     public static List<UserEventDto> fromEvents(List<Event> events) {
         return events.stream().map(UserEventDto::fromEvent).collect(Collectors.toList());
     }
+
+
 }
