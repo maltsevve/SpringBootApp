@@ -27,6 +27,15 @@ public class Loan extends BaseEntity {
     @Column(name = "balance")
     private Long balance;   
 
+    @Column(name = "city")
+    private String city;   
+
+    @Column(name = "state")
+    private String state;   
+
+    @Column(name = "zipcode")
+    private Integer zipcode;   
+
     @Override
     public String toString() {
         return "Loan{" +

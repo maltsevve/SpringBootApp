@@ -42,7 +42,9 @@ public class LoanRestControllerV1 {
         Loan savedLoan = new Loan();
         savedLoan.setBranchName(loanDto.getBranchName());
         savedLoan.setBalance(loanDto.getBalance());
-        savedLoan.setLoanNumber(loanDto.getLoanNumber());
+        savedLoan.setCity(loanDto.getCity());
+        savedLoan.setState(loanDto.getState());
+        savedLoan.setZipcode(loanDto.getZipcode());
         this.loanService.save(savedLoan);
 
         return new ResponseEntity<>(LoanDto.fromLoan(savedLoan), headers, HttpStatus.CREATED);
@@ -61,6 +63,18 @@ public class LoanRestControllerV1 {
         }
 
         return new ResponseEntity<>(LoanDto.fromLoans(loans), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoanDto> getLoan(@RequestHeader(value = "Authorization") String token,
+                                           @PathVariable("id") Long loanId) {
+        Loan loan = loanService.getById(loanId);
+
+        if (Objects.isNull(loanId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<LoanDto>(LoanDto.fromLoan(loan), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

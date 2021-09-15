@@ -18,6 +18,9 @@ public class LoanDto {
     private String branchName;
     private UUID loanNumber;
     private Long balance;
+    private String city;
+    private String state;
+    private Integer zipcode;
     private Status loanStatus;
     private Date created;
     private Date updated;
@@ -28,6 +31,9 @@ public class LoanDto {
         loan.setBranchName(branchName);
         loan.setLoanNumber(loanNumber);
         loan.setBalance(balance);
+        loan.setCity(city);
+        loan.setState(state);
+        loan.setZipcode(zipcode);
         loan.setStatus(loanStatus);
         loan.setCreated(created);
         loan.setUpdated(updated);
@@ -40,7 +46,10 @@ public class LoanDto {
         loanDto.setId(loan.getId());
         loanDto.setBranchName(loan.getBranchName());
         loanDto.setLoanNumber(loan.getLoanNumber());
-        loanDto.setBalance(loan.getBalance());   
+        loanDto.setBalance(loan.getBalance());  
+        loanDto.setCity(loan.getCity()); 
+        loanDto.setState(loan.getState());
+        loanDto.setZipcode(loan.getZipcode());
         loanDto.setLoanStatus(loan.getStatus());
         loanDto.setCreated(loan.getCreated());
         loanDto.setUpdated(loan.getUpdated());
