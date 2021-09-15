@@ -1,25 +1,29 @@
 package com.maltsevve.springBootApp.service;
 
-import com.maltsevve.springBootApp.model.Loan;
-import com.maltsevve.springBootApp.model.Status;
-import com.maltsevve.springBootApp.repository.LoanRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.transaction.Transactional;
+
+import com.maltsevve.springBootApp.model.Loan;
+import com.maltsevve.springBootApp.model.Status;
+import com.maltsevve.springBootApp.repository.LoanRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
-    private final LoanRepository loanRepository;
-
-
-
+ 
+    @Autowired
+    private LoanRepository loanRepository;
+    
+    @Autowired
+    private UuidService uuidService;
 
     @Override
     public Loan findByLoanName(String loanNumber) {
@@ -34,8 +38,10 @@ public class LoanServiceImpl implements LoanService {
             loan.setCreated(new Date());
         }
 
+        loan.setLoanNumber(this.uuidService.getUuid());
         loan.setUpdated(new Date());
         loan.setStatus(Status.ACTIVE);
+
 
         log.info("IN EventServiceImpl save {}", loan);
 
