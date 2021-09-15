@@ -4,6 +4,7 @@ import com.maltsevve.springBootApp.dto.AdminFileDto;
 import com.maltsevve.springBootApp.model.File;
 import com.maltsevve.springBootApp.service.FileService;
 import com.maltsevve.springBootApp.service.amazon.AmazonClient;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/admins/files")
 @RequiredArgsConstructor
+@Api(tags = { "Files: administrator access" })
 public class AdminFileRestControllerV1 {
     private final FileService fileService;
     private final AmazonClient amazonClient;

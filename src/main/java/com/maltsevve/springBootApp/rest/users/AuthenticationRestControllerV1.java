@@ -4,6 +4,7 @@ import com.maltsevve.springBootApp.dto.AuthenticationRequestDto;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.security.jwt.JwtTokenProvider;
 import com.maltsevve.springBootApp.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping(value = "/api/v1/auth")
 @RequiredArgsConstructor
+@Api(tags = { "Authentication" })
 public class AuthenticationRestControllerV1 {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;

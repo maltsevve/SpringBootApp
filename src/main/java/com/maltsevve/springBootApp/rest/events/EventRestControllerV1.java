@@ -3,6 +3,7 @@ package com.maltsevve.springBootApp.rest.events;
 import com.maltsevve.springBootApp.dto.EventDto;
 import com.maltsevve.springBootApp.model.Event;
 import com.maltsevve.springBootApp.service.EventService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/users/events")
 @RequiredArgsConstructor
+@Api(tags = { "Events" })
 public class EventRestControllerV1 {
     private final EventService eventService;
 

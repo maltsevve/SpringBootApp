@@ -3,6 +3,7 @@ package com.maltsevve.springBootApp.rest.users;
 import com.maltsevve.springBootApp.dto.ModerUserDto;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/moderators")
 @RequiredArgsConstructor
+@Api(tags = { "Users: moderator access" })
 public class ModerUserRestControllerV1 {
     private final UserService userService;
 

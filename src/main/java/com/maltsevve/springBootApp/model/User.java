@@ -17,7 +17,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class User extends BaseEntity {
     @Column(name = "username")
-    String username;
+    private String username;
 
     @Column(name = "password")
     private String password;

@@ -3,6 +3,7 @@ package com.maltsevve.springBootApp.rest.users;
 import com.maltsevve.springBootApp.dto.UserDto;
 import com.maltsevve.springBootApp.model.User;
 import com.maltsevve.springBootApp.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/register")
 @RequiredArgsConstructor
+@Api(tags = { "Users: account registration" })
 public class UserAccountRegistrationRestControllerV1 {
     private final UserService userService;
 

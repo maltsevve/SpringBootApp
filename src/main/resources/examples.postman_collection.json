@@ -1,0 +1,425 @@
+{
+	"info": {
+		"_postman_id": "28b454e7-1c72-4b28-b496-71b54066f622",
+		"name": "Postman examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "saveUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2huIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVIiLCJST0xFX1VTRVIiXSwiaWF0IjoxNjI3MzI4MTUwLCJleHAiOjE2MjczMzE3NTB9.2y3q31WdlEc1PQ8Hgh6PlCkOhuCIpjnqagDd7FunucI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Jane\",\r\n    \"password\":\"test2\",\r\n    \"events\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2huIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9VU0VSIl0sImlhdCI6MTYyNzM5OTc3MywiZXhwIjoxNjI3NDAzMzczfQ.xthrrVCVUMfmEL5A6MEloQlkVnQMo-t3e9AkEf9mkSI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUserById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Jane\",\r\n    \"events\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9966/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBZG1pbiIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9BRE1JTiJdLCJpYXQiOjE2Mjk0NjUxNTQsImV4cCI6MTYyOTQ2ODc1NH0.UsytnBL_LNv_roxk16WlYhcqi9Jyg3QxE6UoHCnQ_Lo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUserById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2huIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVIiLCJST0xFX1VTRVIiXSwiaWF0IjoxNjI3MzI4MTUwLCJleHAiOjE2MjczMzE3NTB9.2y3q31WdlEc1PQ8Hgh6PlCkOhuCIpjnqagDd7FunucI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerNewUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"John Doe\",\r\n    \"password\":\"test2\",\r\n    \"email\":\"1@2.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9966/api/v1/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "files",
+			"item": [
+				{
+					"name": "saveFile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBZG1pbiIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9BRE1JTiJdLCJpYXQiOjE2Mjk0NjUzOTYsImV4cCI6MTYyOTQ2ODk5Nn0.bjUk8GQ6jno9YeQ5NxuWbEZNhjmZBSTa-EDOr0MIa_0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"contentType": "multipart/form-data",
+									"type": "file",
+									"src": "file1.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFileById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBZG1pbiIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9BRE1JTiJdLCJpYXQiOjE2Mjg2MTg0MTMsImV4cCI6MTYyODYyMjAxM30.JXCym_7ccqN-QYf8l0xw6MqsrwVZFQC4cAc884mkapg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins/files/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"files",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllFiles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2huIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9VU0VSIl0sImlhdCI6MTYyNzM5OTc3MywiZXhwIjoxNjI3NDAzMzczfQ.xthrrVCVUMfmEL5A6MEloQlkVnQMo-t3e9AkEf9mkSI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteFileById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBZG1pbiIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9BRE1JTiJdLCJpYXQiOjE2Mjk0NjUzOTYsImV4cCI6MTYyOTQ2ODk5Nn0.bjUk8GQ6jno9YeQ5NxuWbEZNhjmZBSTa-EDOr0MIa_0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/admins/files/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"files",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "events",
+			"item": [
+				{
+					"name": "getEventById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2huIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9VU0VSIl0sImlhdCI6MTYyNzM5OTc3MywiZXhwIjoxNjI3NDAzMzczfQ.xthrrVCVUMfmEL5A6MEloQlkVnQMo-t3e9AkEf9mkSI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/users/events/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"events",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllEvents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2huIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9VU0VSIl0sImlhdCI6MTYyNzM5OTc3MywiZXhwIjoxNjI3NDAzMzczfQ.xthrrVCVUMfmEL5A6MEloQlkVnQMo-t3e9AkEf9mkSI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9966/api/v1/users/events",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9966",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"events"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Admin\",\r\n    \"password\":\"Sp0r9tviki#g&ravi#.Sp0rzaved0m@be$plode#B0g0din&onne0din!odinb0gine0din.N0v$e*e0bav*arkom$poresoIIIlisb#atow4to$ilAvT0re\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9966/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9966",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

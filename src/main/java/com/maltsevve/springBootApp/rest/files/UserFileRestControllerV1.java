@@ -3,6 +3,7 @@ package com.maltsevve.springBootApp.rest.files;
 import com.maltsevve.springBootApp.dto.UserFileDto;
 import com.maltsevve.springBootApp.model.File;
 import com.maltsevve.springBootApp.service.FileService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/users/files")
 @RequiredArgsConstructor
+@Api(tags = { "Files: user access" })
 public class UserFileRestControllerV1 {
     private final FileService fileService;
 
