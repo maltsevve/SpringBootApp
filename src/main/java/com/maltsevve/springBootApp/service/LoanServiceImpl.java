@@ -25,6 +25,9 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private UuidService uuidService;
 
+    @Autowired
+    private WeatherService weatherService;
+
     @Override
     public Loan findByLoanName(String loanNumber) {
         Loan loan = loanRepository.findByLoanNumber(loanNumber);
@@ -52,7 +55,10 @@ public class LoanServiceImpl implements LoanService {
     @Transactional
     public Loan getById(Long id) {
         log.info("IN LoanServiceImpl getById {}", id);
-        return loanRepository.getById(id);
+        var loan = loanRepository.getById(id);
+        weatherService.findByCity(loan.getCity());
+
+        return loan;
     }
 
     @Override
