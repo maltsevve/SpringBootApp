@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/register")
@@ -28,7 +27,7 @@ public class UserAccountRegistrationRestControllerV1 {
     public ResponseEntity<UserDto> saveUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

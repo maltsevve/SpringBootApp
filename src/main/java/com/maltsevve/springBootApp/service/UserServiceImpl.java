@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        if (Objects.isNull(user.getCreated())) {
+        if (user.getCreated() == null) {
             user.setCreated(new Date());
         }
 

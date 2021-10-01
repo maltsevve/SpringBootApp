@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
@@ -37,7 +36,7 @@ public class AuthenticationRestControllerV1 {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
             User user = userService.findByUsername(username);
 
-            if (Objects.isNull(user)) {
+            if (user == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found.");
             }
 

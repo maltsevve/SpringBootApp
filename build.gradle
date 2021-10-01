@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.flywaydb.flyway' version "7.11.1"
-    id 'java'
+    id "org.springframework.boot" version "2.5.4"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "org.flywaydb.flyway" version "7.11.1"
+    id "java"
 }
 
 group = 'com.maltsevve'
@@ -33,12 +33,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-tomcat:2.5.4'
     implementation 'mysql:mysql-connector-java:8.0.25'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0'
     testImplementation 'org.mockito:mockito-core:3.12.4'
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.62'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.70'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.4'
+    implementation 'se.transmode.gradle:gradle-docker:1.2'
 }
 
 test {
@@ -53,4 +55,3 @@ flyway {
 }
 
 flywayMigrate.dependsOn classes
-

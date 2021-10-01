@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/users/events")
@@ -25,13 +24,13 @@ public class EventRestControllerV1 {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EventDto> getEvent(@PathVariable("id") Long eventId) {
-        if (Objects.isNull(eventId)) {
+        if (eventId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Event event = this.eventService.getById(eventId);
 
-        if (Objects.isNull(event)) {
+        if (event == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

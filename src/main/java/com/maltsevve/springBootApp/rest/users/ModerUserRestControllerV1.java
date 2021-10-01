@@ -25,7 +25,7 @@ public class ModerUserRestControllerV1 {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ModerUserDto> getUser(@PathVariable("id") Long userId) {
-        if (Objects.isNull(userId)) {
+        if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

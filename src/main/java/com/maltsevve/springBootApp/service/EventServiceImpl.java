@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -19,7 +18,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event save(Event event) {
-        if (Objects.isNull(event.getCreated())) {
+        if (event.getCreated() == null) {
             event.setCreated(new Date());
         }
 

@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -52,12 +52,14 @@ public class AmazonClient {
                 .build();
     }
 
-    @SneakyThrows
     private File convertMultiPartToFile(MultipartFile file) {
         File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
+
+        try (FileOutputStream fos = new FileOutputStream(convFile)){
+            fos.write(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return convFile;
     }
@@ -66,7 +68,6 @@ public class AmazonClient {
         s3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
     }
 
-    @SneakyThrows
     public String uploadFile(MultipartFile multipartFile) {
         File file = convertMultiPartToFile(multipartFile);
         String fileName = multipartFile.getOriginalFilename();
@@ -78,11 +79,14 @@ public class AmazonClient {
         return fileUrl;
     }
 
-//    @SneakyThrows
 //    public File downloadFile(String fileName) {
 //        InputStream inputStream = s3Client.getObject(new GetObjectRequest(bucketName, fileName)).getObjectContent();
 //        File convFile = new File(Objects.requireNonNull(fileName));
-//        Files.copy(inputStream, convFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//        try {
+//            Files.copy(inputStream, convFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //
 //        return convFile;
 //    }

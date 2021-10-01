@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -33,7 +32,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public File save(File file, String token) {
-        if (Objects.isNull(file.getCreated())) {
+        if (file.getCreated() == null) {
             file.setCreated(new Date());
         }
 

@@ -31,7 +31,7 @@ public class ModerFileRestControllerV1 {
                                                  @RequestPart(value = "file") MultipartFile file) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (Objects.isNull(file)) {
+        if (file == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -48,7 +48,7 @@ public class ModerFileRestControllerV1 {
     @SneakyThrows
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<URL> getFiles(@PathVariable("id") Long fileId) {
-        if (Objects.isNull(fileId)) {
+        if (fileId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -77,7 +77,7 @@ public class ModerFileRestControllerV1 {
                                            @PathVariable("id") Long fileId) {
         File file = fileService.getById(fileId);
 
-        if (Objects.isNull(file)) {
+        if (file == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

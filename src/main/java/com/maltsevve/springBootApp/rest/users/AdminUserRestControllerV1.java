@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/admins")
@@ -26,7 +25,7 @@ public class AdminUserRestControllerV1 {
     public ResponseEntity<AdminUserDto> saveUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -39,7 +38,7 @@ public class AdminUserRestControllerV1 {
     public ResponseEntity<AdminUserDto> updateUser(@RequestBody @Valid User user) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (Objects.isNull(user.getId())) {
+        if (user.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -51,7 +50,7 @@ public class AdminUserRestControllerV1 {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AdminUserDto> getUser(@PathVariable("id") Long userId) {
-        if (Objects.isNull(userId)) {
+        if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -79,7 +78,7 @@ public class AdminUserRestControllerV1 {
     public ResponseEntity<User> deleteUser(@PathVariable("id") Long userId) {
         User user = userService.getById(userId);
 
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

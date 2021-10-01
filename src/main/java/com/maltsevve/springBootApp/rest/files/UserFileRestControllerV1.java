@@ -28,7 +28,7 @@ public class UserFileRestControllerV1 {
     @SneakyThrows
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<URL> getFiles(@PathVariable("id") Long fileId) {
-        if (Objects.isNull(fileId)) {
+        if (fileId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

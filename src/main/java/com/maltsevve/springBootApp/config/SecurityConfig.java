@@ -2,7 +2,6 @@ package com.maltsevve.springBootApp.config;
 
 import com.maltsevve.springBootApp.security.jwt.JwtConfigurer;
 import com.maltsevve.springBootApp.security.jwt.JwtTokenProvider;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,29 +37,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @SneakyThrows
     @Bean
     public AuthenticationManager authenticationManagerBean() {
-        return super.authenticationManagerBean();
+        try {
+            return super.authenticationManagerBean();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
-    @SneakyThrows
     protected void configure(HttpSecurity http) {
-        http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(REGISTRATION_ENDPOINT).permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .antMatchers(MODERATOR_ENDPOINT).hasRole("MODERATOR")
-                .antMatchers(USER_ENDPOINT).hasRole("USER")
-                .anyRequest().authenticated()
-                .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+        try {
+            http
+                    .httpBasic().disable()
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers(LOGIN_ENDPOINT).permitAll()
+                    .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                    .antMatchers(AUTH_WHITELIST).permitAll()
+                    .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                    .antMatchers(MODERATOR_ENDPOINT).hasRole("MODERATOR")
+                    .antMatchers(USER_ENDPOINT).hasRole("USER")
+                    .anyRequest().authenticated()
+                    .and()
+                    .apply(new JwtConfigurer(jwtTokenProvider));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
