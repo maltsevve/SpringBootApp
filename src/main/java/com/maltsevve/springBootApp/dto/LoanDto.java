@@ -57,8 +57,9 @@ public class LoanDto {
         return loanDto;
     }
 
-    public static List<LoanDto> fromLoans(List<Loan> loans) {
-        return loans.stream().map(LoanDto::fromLoan).collect(Collectors.toList());
+    public static List<LoanDto> fromLoans(List<Loan> loans) {  
+
+      return loans.stream().map(LoanDto::fromLoan).collect(Collectors.toList());
     }
 }
 

@@ -1,9 +1,14 @@
 package com.maltsevve.springBootApp.service.amazon;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 @Service
@@ -25,30 +33,30 @@ public class AmazonClient {
     @Value("${bucketName}")
     private String bucketName;
 
-//    @Value("${amazonProperties.accessKey}")
-//    private String accessKey;
-//
-//    @Value("${amazonProperties.secretKey}")
-//    private String secretKey;
+    @Value("${amazonProperties.accessKey}")
+    private String accessKey;
+
+    @Value("${amazonProperties.secretKey}")
+    private String secretKey;
 
     @PostConstruct
     private void initAmazon() {
-//        AWSCredentialsProvider credentialsProvider = new AWSCredentialsProvider() {
-//            @Override
-//            public AWSCredentials getCredentials() {
-//                return new BasicAWSCredentials(accessKey, secretKey);
-//            }
-//
-//            @Override
-//            public void refresh() {
-//
-//            }
-//        };
+        AWSCredentialsProvider credentialsProvider = new AWSCredentialsProvider() {
+            @Override
+            public AWSCredentials getCredentials() {
+                return new BasicAWSCredentials(accessKey, secretKey);
+            }
+
+            @Override
+            public void refresh() {
+
+            }
+        };
 
         this.s3Client = AmazonS3ClientBuilder.standard()
-                .withRegion(Regions.EU_NORTH_1)
-//                .withCredentials(credentialsProvider)
-//                .withCredentials(new ProfileCredentialsProvider())
+                .withRegion(Regions.US_EAST_1)
+                .withCredentials(credentialsProvider)
+                .withCredentials(new ProfileCredentialsProvider())
                 .build();
     }
 
@@ -78,14 +86,14 @@ public class AmazonClient {
         return fileUrl;
     }
 
-//    @SneakyThrows
-//    public File downloadFile(String fileName) {
-//        InputStream inputStream = s3Client.getObject(new GetObjectRequest(bucketName, fileName)).getObjectContent();
-//        File convFile = new File(Objects.requireNonNull(fileName));
-//        Files.copy(inputStream, convFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//
-//        return convFile;
-//    }
+    @SneakyThrows
+    public File downloadFile(String fileName) {
+        InputStream inputStream = s3Client.getObject(new GetObjectRequest(bucketName, fileName)).getObjectContent();
+        File convFile = new File(Objects.requireNonNull(fileName));
+        Files.copy(inputStream, convFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        return convFile;
+    }
 
     public void deleteFileFromS3Bucket(String fileName) {
         s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));

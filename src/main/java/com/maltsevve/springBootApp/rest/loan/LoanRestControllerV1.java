@@ -1,6 +1,7 @@
 package com.maltsevve.springBootApp.rest.loan;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.maltsevve.springBootApp.dto.LoanDto;
@@ -52,17 +53,28 @@ public class LoanRestControllerV1 {
     //    return null;
     }
 
+    @GetMapping(value = "/branchAndCity/{branchName}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoanDto> getLoanByBranchNameAndCity(@RequestHeader(value = "Authorization") String token,
+                                                                @PathVariable Map<String, String> pathVarsMap) {
+    //                                            @RequestBody MultiValueMap paramMap) {
+        LoanDto loanDto = loanService.findByBranchNameAndCity(pathVarsMap.get("branchName"), pathVarsMap.get("city"));
 
+        if (Objects.isNull(loanDto)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<LoanDto>(loanDto, HttpStatus.OK);
+    }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<LoanDto>> getAllLoans() {
-        List<Loan> loans = this.loanService.getAll();
+        List<LoanDto> loans = this.loanService.getAll();
 
         if (loans.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(LoanDto.fromLoans(loans), HttpStatus.OK);
+        return new ResponseEntity<>(loans, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

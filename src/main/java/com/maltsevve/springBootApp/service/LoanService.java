@@ -1,5 +1,6 @@
 package com.maltsevve.springBootApp.service;
 
+import com.maltsevve.springBootApp.dto.LoanDto;
 import com.maltsevve.springBootApp.model.Loan;
 
 import java.util.List;
@@ -9,9 +10,11 @@ public interface LoanService {
 
     Loan getById(Long id);
 
-    List<Loan> getAll();
+    List<LoanDto> getAll();
 
     Loan deleteById(Long id);
 
     Loan findByLoanName(String loanName);
+
+    LoanDto findByBranchNameAndCity(String branchName, String city);
 }

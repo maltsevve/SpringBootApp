@@ -1,6 +1,8 @@
 package com.maltsevve.springBootApp.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.maltsevve.springBootApp.dto.WeatherDto;
@@ -35,6 +37,20 @@ public class WeatherServiceImpl implements WeatherService{
 //                  .getForEntity(URI_WEATHER, Object[].class);
  
         // "users/{id}"
+
+        List<String> list=new ArrayList<String>();  
+        list.add("ankit");  
+        list.add("mayank");  
+        list.add("irfan");  
+        list.add("jai");  
+          
+
+        list.forEach(  
+    //        System.out.println("In the for Loop ");
+            (n)->System.out.println(n)  
+        );  
+
+
         log.info("In WeatherServiceImpl class, findByCity(Sting city) method for city: " + city);
         Map<String, String> params = new HashMap<String, String>();
         params.put("q", city);

@@ -13,6 +13,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    integrationImplementation.extendsFrom testImplementation
+    integrationRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
 repositories {
@@ -22,7 +24,10 @@ repositories {
 
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.20'
-    implementation 'junit:junit:4.13.2'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
+    implementation 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
+    implementation 'org.mockito:mockito-core:3.11.2'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     //bhawna
@@ -30,6 +35,8 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:2.7.0'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-test:2.5.0'
+    implementation 'org.springframework.boot:spring-boot-starter-parent:2.4.5'
 
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
     implementation 'org.springframework.security:spring-security-web:5.5.0'
@@ -65,3 +72,22 @@ bootRun {
    jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8081"]
 }
 
+sourceSets {
+    integration {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        java.srcDirs('./src/integrationTest/java')
+        resources.srcDirs('./src/integrationTest/resources')
+    }
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integration.output.classesDirs
+    classpath = sourceSets.integration.runtimeClasspath
+    outputs.upToDateWhen { false }
+    // This is not needed, but I like to see which tests have run
+    testLogging { events "passed", "skipped", "failed" }
+    // mustRunAfter test
+}
